@@ -5,7 +5,7 @@ DataDrivenDashboards automates trade execution, decision making, book keeping, a
 
 Keep your crypto where it belongs, AT HOME, not in the cloud.
 
-## Coming Q2, 2022
+## Coming Q3, 2022
 
 info@datadrivendashboards.com
 
