@@ -7,55 +7,64 @@
  * Many thanks to the authors for their hard work.
  */
 
- function main() {
+function main() {
     // Get A WebGL context
     /** @type {HTMLCanvasElement} */
     const canvas = document.querySelector("#canvas");
     const gl = canvas.getContext("webgl2");
     if (!gl) {
-      return;
+        return;
     }
 
     const vs = `#version 300 es
-       // an attribute is an input (in) to a vertex shader.
-       // It will receive data from a buffer
-       in vec4 a_position;
+     // an attribute is an input (in) to a vertex shader.
+     // It will receive data from a buffer
+     in vec4 a_position;
 
-       // all shaders have a main function
-       void main() {
+     // all shaders have a main function
+     void main() {
 
-         // gl_Position is a special variable a vertex shader
-         // is responsible for setting
-         gl_Position = a_position;
-       }
-     `;
+       // gl_Position is a special variable a vertex shader
+       // is responsible for setting
+       gl_Position = a_position;
+     }
+   `;
 
     const fs = `#version 300 es
-     precision highp float;
+   precision highp float;
 
-     uniform vec2 iResolution;
-     uniform vec2 iMouse;
-     uniform float iTime;
+   uniform vec2 iResolution;
+   uniform vec2 iMouse;
+   uniform float iTime;
 
-     void mainImage( out vec4 fragColor, in vec2 fragCoord )
-     {
+   void mainImage( out vec4 fragColor, in vec2 fragCoord )
+   {
+    vec2 uv = (fragCoord.xy-.5*iResolution.xy) / iResolution.y;
+    vec2 st = vec2(atan(uv.x, uv.y), length(uv)*0.8);
+    uv = vec2 (st.x/6.2831+.5, st.y);
+    float x = uv.x*300.-0.5*iTime*0.9;
+    float m = min(fract(x), fract(1.-x));
+    float c = smoothstep(0.8, 1., m*1.8+0.5-uv.y);
 
-      vec2 uv = (fragCoord.xy-.5*iResolution.xy) / iResolution.y;
-      vec2 st = vec2(atan(uv.x, uv.y), length(uv)*0.8);
-      uv = vec2 (st.x/6.2831+.5, st.y);
-      float x = uv.x*300.-0.5*iTime*0.9;
-      float m = min(fract(x), fract(1.-x));
-      float c = smoothstep(0.8, 1., m*1.8+0.5-uv.y);
+    //stars
+    fragCoord-= iResolution.xy/2.;
+    float w = iResolution.x/2.;
+    float h = iResolution.y/2.;
 
-      fragColor = vec4(c);
-     }
+    for(float i = 0.; i < 100.; i++){
+        float x = mod(i+(sin(i))*(500.)*500., w*2.+200.)-w-100.;
+        float y = h*sin(cos(i*524.)*i*5.+i*2.);
+        c += (.3*sin(i)+.2)/distance(fragCoord, vec2(x,y));
+    }
+    fragColor = vec4(c);
+   }
 
-     out vec4 outColor;
+   out vec4 outColor;
 
-     void main() {
-       mainImage(outColor, gl_FragCoord.xy);
-     }
-     `;
+   void main() {
+     mainImage(outColor, gl_FragCoord.xy);
+   }
+   `;
 
     // setup GLSL program
     const program = webglUtils.createProgramFromSources(gl, [vs, fs]);
@@ -82,12 +91,12 @@
 
     // fill it with a 2 triangles that cover clip space
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-      -1, -1,  // first triangle
-      1, -1,
-      -1, 1,
-      -1, 1,  // second triangle
-      1, -1,
-      1, 1,
+        -1, -1,  // first triangle
+        1, -1,
+        -1, 1,
+        -1, 1,  // second triangle
+        1, -1,
+        1, 1,
     ]), gl.STATIC_DRAW);
 
     // Turn on the attribute
@@ -95,39 +104,39 @@
 
     // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
     gl.vertexAttribPointer(
-      positionAttributeLocation,
-      2,          // 2 components per iteration
-      gl.FLOAT,   // the data is 32bit floats
-      false,      // don't normalize the data
-      0,          // 0 = move forward size * sizeof(type) each iteration to get the next position
-      0,          // start at the beginning of the buffer
+        positionAttributeLocation,
+        2,          // 2 components per iteration
+        gl.FLOAT,   // the data is 32bit floats
+        false,      // don't normalize the data
+        0,          // 0 = move forward size * sizeof(type) each iteration to get the next position
+        0,          // start at the beginning of the buffer
     );
 
     function render(time) {
-      time *= 0.001;  // convert to seconds
+        time *= 0.001;  // convert to seconds
 
-      webglUtils.resizeCanvasToDisplaySize(gl.canvas);
+        webglUtils.resizeCanvasToDisplaySize(gl.canvas);
 
-      // Tell WebGL how to convert from clip space to pixels
-      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+        // Tell WebGL how to convert from clip space to pixels
+        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-      // Tell it to use our program (pair of shaders)
-      gl.useProgram(program);
+        // Tell it to use our program (pair of shaders)
+        gl.useProgram(program);
 
-      // Bind the attribute/buffer set we want.
-      gl.bindVertexArray(vao);
+        // Bind the attribute/buffer set we want.
+        gl.bindVertexArray(vao);
 
-      gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
+        gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
 
-      gl.drawArrays(
-        gl.TRIANGLES,
-        0,     // offset
-        6,     // num vertices to process
-      );
+        gl.drawArrays(
+            gl.TRIANGLES,
+            0,     // offset
+            6,     // num vertices to process
+        );
 
-      requestAnimationFrame(render);
+        requestAnimationFrame(render);
     }
     requestAnimationFrame(render);
-  }
+}
 
-  main();
+main();
