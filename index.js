@@ -34,27 +34,29 @@ function main() {
    precision highp float;
 
    uniform vec2 iResolution;
-   uniform vec2 iMouse;
-   uniform float iTime;
+//    uniform vec2 iMouse;
+    uniform float iTime;
 
    void mainImage( out vec4 fragColor, in vec2 fragCoord )
    {
+
+    // main star
     vec2 uv = (fragCoord.xy-.5*iResolution.xy) / iResolution.y;
-    vec2 st = vec2(atan(uv.x, uv.y), length(uv)*0.8);
+    vec2 st = vec2(atan(uv.x, uv.y), length(uv)*0.9);
     uv = vec2 (st.x/6.2831+.5, st.y);
     float x = uv.x*300.-0.5*iTime*0.9;
     float m = min(fract(x), fract(1.-x));
-    float c = smoothstep(0.8, 1., m*1.8+0.5-uv.y);
+    float c = smoothstep(0.8, 1., m*1.3+0.5-uv.y);
 
     //stars
     fragCoord-= iResolution.xy/2.;
     float w = iResolution.x/2.;
     float h = iResolution.y/2.;
 
-    for(float i = 0.; i < 100.; i++){
+    for(float i = 0.; i < 200.; i++){
         float x = mod(i+(sin(i))*(500.)*500., w*2.+200.)-w-100.;
         float y = h*sin(cos(i*524.)*i*5.+i*2.);
-        c += (.3*sin(i)+.2)/distance(fragCoord, vec2(x,y));
+        c += (.2*sin(i)+.002)/distance(fragCoord, vec2(x,y));
     }
     fragColor = vec4(c);
    }
@@ -74,7 +76,7 @@ function main() {
 
     // look up uniform locations
     const resolutionLocation = gl.getUniformLocation(program, "iResolution");
-    const mouseLocation = gl.getUniformLocation(program, "iMouse");
+    // const mouseLocation = gl.getUniformLocation(program, "iMouse");
     const timeLocation = gl.getUniformLocation(program, "iTime");
 
     // Create a vertex array object (attribute state)
