@@ -2,16 +2,16 @@ const app = new PIXI.Application();
 document.body.appendChild(app.view);
 
 // Get the texture for rope.
-const starTexture = PIXI.Texture.from('examples/assets/star.png');
+const starTexture = PIXI.Texture.from('star.png');
 
 const starAmount = 1000;
 let cameraZ = 0;
 const fov = 20;
-const baseSpeed = 0.025;
+const baseSpeed = 0.0;
 let speed = 0;
 let warpSpeed = 0;
-const starStretch = 5;
-const starBaseSize = 0.05;
+const starStretch = 1;
+const starBaseSize = 0.003;
 
 
 // Create the stars
@@ -41,15 +41,15 @@ function randomizeStar(star, initial) {
 }
 
 // Change flight speed every 5 seconds
-setInterval(() => {
-    warpSpeed = warpSpeed > 0 ? 0 : 1;
-}, 5000);
+// setInterval(() => {
+//     warpSpeed = warpSpeed > 0 ? 0 : 1;
+// }, 5000);
 
 // Listen for animate update
 app.ticker.add((delta) => {
     // Simple easing. This should be changed to proper easing function when used for real.
-    speed += (warpSpeed - speed) / 20;
-    cameraZ += delta * 10 * (speed + baseSpeed);
+    // speed += (warpSpeed - speed) / 20;
+    // cameraZ += delta * 10 * (speed + baseSpeed);
     for (let i = 0; i < starAmount; i++) {
         const star = stars[i];
         if (star.z < cameraZ) randomizeStar(star);
