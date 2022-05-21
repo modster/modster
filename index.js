@@ -1,73 +1,133 @@
-const app = new PIXI.Application();
-document.body.appendChild(app.view);
 
-// Get the texture for rope.
-const starTexture = PIXI.Texture.from('star.png');
+/**
+ * Credit is given to the following people for their work:
+ * https://github.com/gfxfundamentals/webgl2-fundamentals/graphs/contributors
+ * This is a modified version of the code from this repository:
+ * https://webgl2fundamentals.org/webgl/lessons/webgl-shadertoy.html
+ * Many thanks to the authors for their hard work.
+ */
 
-const starAmount = 1000;
-let cameraZ = 0;
-const fov = 20;
-const baseSpeed = 0.0;
-let speed = 0;
-let warpSpeed = 0;
-const starStretch = 1;
-const starBaseSize = 0.003;
-
-
-// Create the stars
-const stars = [];
-for (let i = 0; i < starAmount; i++) {
-    const star = {
-        sprite: new PIXI.Sprite(starTexture),
-        z: 0,
-        x: 0,
-        y: 0,
-    };
-    star.sprite.anchor.x = 0.5;
-    star.sprite.anchor.y = 0.7;
-    randomizeStar(star, true);
-    app.stage.addChild(star.sprite);
-    stars.push(star);
-}
-
-function randomizeStar(star, initial) {
-    star.z = initial ? Math.random() * 2000 : cameraZ + Math.random() * 1000 + 2000;
-
-    // Calculate star positions with radial random coordinate so no star hits the camera.
-    const deg = Math.random() * Math.PI * 2;
-    const distance = Math.random() * 50 + 1;
-    star.x = Math.cos(deg) * distance;
-    star.y = Math.sin(deg) * distance;
-}
-
-// Change flight speed every 5 seconds
-// setInterval(() => {
-//     warpSpeed = warpSpeed > 0 ? 0 : 1;
-// }, 5000);
-
-// Listen for animate update
-app.ticker.add((delta) => {
-    // Simple easing. This should be changed to proper easing function when used for real.
-    // speed += (warpSpeed - speed) / 20;
-    // cameraZ += delta * 10 * (speed + baseSpeed);
-    for (let i = 0; i < starAmount; i++) {
-        const star = stars[i];
-        if (star.z < cameraZ) randomizeStar(star);
-
-        // Map star 3d position to 2d with really simple projection
-        const z = star.z - cameraZ;
-        star.sprite.x = star.x * (fov / z) * app.renderer.screen.width + app.renderer.screen.width / 2;
-        star.sprite.y = star.y * (fov / z) * app.renderer.screen.width + app.renderer.screen.height / 2;
-
-        // Calculate star scale & rotation.
-        const dxCenter = star.sprite.x - app.renderer.screen.width / 2;
-        const dyCenter = star.sprite.y - app.renderer.screen.height / 2;
-        const distanceCenter = Math.sqrt(dxCenter * dxCenter + dyCenter * dyCenter);
-        const distanceScale = Math.max(0, (2000 - z) / 2000);
-        star.sprite.scale.x = distanceScale * starBaseSize;
-        // Star is looking towards center so that y axis is towards center.
-        // Scale the star depending on how fast we are moving, what the stretchfactor is and depending on how far away it is from the center.
-        star.sprite.scale.y = distanceScale * starBaseSize + distanceScale * speed * starStretch * distanceCenter / app.renderer.screen.width;
-        star.sprite.rotation = Math.atan2(dyCenter, dxCenter) + Math.PI / 2;
+ function main() {
+    // Get A WebGL context
+    /** @type {HTMLCanvasElement} */
+    const canvas = document.querySelector("#canvas");
+    const gl = canvas.getContext("webgl2");
+    if (!gl) {
+      return;
     }
-});
+
+    const vs = `#version 300 es
+       // an attribute is an input (in) to a vertex shader.
+       // It will receive data from a buffer
+       in vec4 a_position;
+
+       // all shaders have a main function
+       void main() {
+
+         // gl_Position is a special variable a vertex shader
+         // is responsible for setting
+         gl_Position = a_position;
+       }
+     `;
+
+    const fs = `#version 300 es
+     precision highp float;
+
+     uniform vec2 iResolution;
+     uniform vec2 iMouse;
+     uniform float iTime;
+
+     void mainImage( out vec4 fragColor, in vec2 fragCoord )
+     {
+
+      vec2 uv = (fragCoord.xy-.5*iResolution.xy) / iResolution.y;
+      vec2 st = vec2(atan(uv.x, uv.y), length(uv)*0.8);
+      uv = vec2 (st.x/6.2831+.5, st.y);
+      float x = uv.x*300.-0.5*iTime*0.9;
+      float m = min(fract(x), fract(1.-x));
+      float c = smoothstep(0.8, 1., m*1.8+0.5-uv.y);
+
+      fragColor = vec4(c);
+     }
+
+     out vec4 outColor;
+
+     void main() {
+       mainImage(outColor, gl_FragCoord.xy);
+     }
+     `;
+
+    // setup GLSL program
+    const program = webglUtils.createProgramFromSources(gl, [vs, fs]);
+
+    // look up where the vertex data needs to go.
+    const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+
+    // look up uniform locations
+    const resolutionLocation = gl.getUniformLocation(program, "iResolution");
+    const mouseLocation = gl.getUniformLocation(program, "iMouse");
+    const timeLocation = gl.getUniformLocation(program, "iTime");
+
+    // Create a vertex array object (attribute state)
+    const vao = gl.createVertexArray();
+
+    // and make it the one we're currently working with
+    gl.bindVertexArray(vao);
+
+    // Create a buffer to put three 2d clip space points in
+    const positionBuffer = gl.createBuffer();
+
+    // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+    // fill it with a 2 triangles that cover clip space
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1, -1,  // first triangle
+      1, -1,
+      -1, 1,
+      -1, 1,  // second triangle
+      1, -1,
+      1, 1,
+    ]), gl.STATIC_DRAW);
+
+    // Turn on the attribute
+    gl.enableVertexAttribArray(positionAttributeLocation);
+
+    // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
+    gl.vertexAttribPointer(
+      positionAttributeLocation,
+      2,          // 2 components per iteration
+      gl.FLOAT,   // the data is 32bit floats
+      false,      // don't normalize the data
+      0,          // 0 = move forward size * sizeof(type) each iteration to get the next position
+      0,          // start at the beginning of the buffer
+    );
+
+    function render(time) {
+      time *= 0.001;  // convert to seconds
+
+      webglUtils.resizeCanvasToDisplaySize(gl.canvas);
+
+      // Tell WebGL how to convert from clip space to pixels
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+      // Tell it to use our program (pair of shaders)
+      gl.useProgram(program);
+
+      // Bind the attribute/buffer set we want.
+      gl.bindVertexArray(vao);
+
+      gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
+
+      gl.drawArrays(
+        gl.TRIANGLES,
+        0,     // offset
+        6,     // num vertices to process
+      );
+
+      requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+  }
+
+  main();
