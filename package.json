@@ -28,9 +28,12 @@
     "observable": "observable"
   },
   "dependencies": {
-    "@observablehq/framework": "^1.13.3"
+    "@observablehq/framework": "^1.13.3",
+    "dotenv": "^16.4.5",
+    "octokit": "^4.0.2"
   },
   "devDependencies": {
+    "http-server": "^14.1.1",
     "rimraf": "^5.0.5"
   },
   "engines": {
