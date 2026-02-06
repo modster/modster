@@ -13,12 +13,18 @@
   "keywords": [
     "gh-pages",
     "observablehq",
-    "framework"
+    "plot",
+    "framework",
+    "octokit",
+    "github",
+    "profile",
+    "dashboard",
+    "static"
   ],
   "bugs": {
     "url": "https://github.com/modster/modster/issues"
   },
-  "homepage": "https://greeffer.com/modster",
+  "homepage": "https://greeffer.com/modster/modster",
   "scripts": {
     "clean": "rimraf src/.observablehq/cache",
     "build": "observable build",
@@ -29,10 +35,10 @@
   },
   "dependencies": {
     "@observablehq/framework": "^1.13.3",
-    "dotenv": "^16.4.5",
     "octokit": "^4.0.2"
   },
   "devDependencies": {
+    "dotenv": "^17.2.4",
     "http-server": "^14.1.1",
     "rimraf": "^5.0.5"
   },
