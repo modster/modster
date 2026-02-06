@@ -1,3 +1,8 @@
-node_modules/
+.DS_Store
 /dist/
+node_modules/
+yarn-error.log
+.env
+.env.*
+!.env.sample
 .notes/
