@@ -11,20 +11,18 @@
     "url": "git+https://github.com/modster/modster.git"
   },
   "keywords": [
-    "gh-pages",
     "observablehq",
-    "plot",
     "framework",
-    "octokit",
+    "gh-pages",
     "github",
     "profile",
-    "dashboard",
-    "static"
+    "static",
+    "template"
   ],
   "bugs": {
     "url": "https://github.com/modster/modster/issues"
   },
-  "homepage": "https://greeffer.com/modster/modster",
+  "homepage": "https://greeffer.com/modster",
   "scripts": {
     "clean": "rimraf src/.observablehq/cache",
     "build": "observable build",
