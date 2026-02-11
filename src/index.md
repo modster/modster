@@ -10,7 +10,6 @@ keywords:
    - dashboard
    - template
 description: A GitHub Pages template for hosting Observable notebooks and modster's GitHub profile. Two birds, one stone.
-layout: default
 toc: false
 sidebar: false
 index: true
@@ -24,13 +23,12 @@ using the [observablehq](https://www.npmjs.com/package/observablehq) package to 
 
 The template includes a simple dashboard layout with a sidebar for navigation and a footer for branding.
 
-```js
 // This is the main entry point for the Modster application. It imports the necessary styles and components, and then renders the dashboard component to the DOM.
-import "./styles.css";
-import Dashboard from "./components/Dashboard.js";
+// import "./styles.css";
+// import Dashboard from "./components/Dashboard.js";
 
-const app = document.getElementById("app");
-app.appendChild(Dashboard());
-```
+// const app = document.getElementById("app");
+// app.appendChild(Dashboard());
 
-<div style="text-align: center;">
+
+<!-- <div style="text-align: center;"> -->
