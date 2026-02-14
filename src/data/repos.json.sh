@@ -1,4 +1,4 @@
-#!/bin/env gh
+#!/bin/env sh
 
 # This shell script fetches data for a given user and returns an array of repository objects, which can then be used by page loaders to display data about the usr's repositories on the website.
 # To run this script, you need to have the GitHub CLI installed and authenticated with your GitHub account.

@@ -7,12 +7,11 @@ keywords:
   - github
   - profile
   - static
-   - dashboard
-   - template
+  - dashboard
+  - template
 description: A GitHub Pages template for hosting Observable notebooks and modster's GitHub profile. Two birds, one stone.
 toc: false
 sidebar: false
-index: true
 ---
 
 # Modster's GitHub Profile  
@@ -29,6 +28,3 @@ The template includes a simple dashboard layout with a sidebar for navigation an
 
 // const app = document.getElementById("app");
 // app.appendChild(Dashboard());
-
-
-<!-- <div style="text-align: center;"> -->
