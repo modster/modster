@@ -1,6 +1,6 @@
 // See https://observablehq.com/framework/config for documentation.
 export default {
-  title: "Modster",
+  title: "@modster",
   // The pages and sections in the sidebar. If you don’t specify this option,
   // all pages will be listed in alphabetical order. Listing pages explicitly
   // lets you organize them into sections and have unlisted pages.
@@ -23,7 +23,7 @@ export default {
   footer: '<div style="text-align: center;">Built with Observable.</div>', // what to show in the footer (HTML)
   sidebar: true, // whether to show the sidebar
   toc: true, // whether to show the table of contents
-  // pager: false, // whether to show previous & next links in the footer
+  pager: true, // whether to show previous & next links in the footer
   output: "docs", // path to the output root for build
   search: true, // activate search
   linkify: true, // convert URLs in Markdown to links

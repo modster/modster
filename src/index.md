@@ -10,8 +10,8 @@ keywords:
   - dashboard
   - template
 description: A GitHub Pages template for hosting Observable notebooks and modster's GitHub profile. Two birds, one stone.
-toc: false
-sidebar: false
+toc: true
+sidebar: true
 ---
 
 # Modster's GitHub Profile  
