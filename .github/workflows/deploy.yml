@@ -30,13 +30,6 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-      - id: date
-        run: echo "date=$(TZ=America/Los_Angeles date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-      - id: cache-data
-        uses: actions/cache@v4
-        with:
-          path: src/.observablehq/cache
-          key: data-${{ hashFiles('src/data/*') }}-${{ steps.date.outputs.date }}
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
