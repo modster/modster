@@ -6,4 +6,4 @@
 #   node src/components/repos.js > src/data/repos.json
 # This will fetch the list of repositories for the user "modster" and save it as a JSON file in the "src/data" directory, which can then be used by the application to display information about the user's repositories on the website.
 
-gh api "users/modster/repos?per_page=100" --jq '[.[] | {name: .name, description: .description, url: .html_url}]' > src/data/repos.json
+gh api "users/modster/repos?per_page=10" --jq '[.[] | {name: .name, description: .description, url: .html_url}]' > src/data/repos.json
