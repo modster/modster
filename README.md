@@ -1,8 +1,8 @@
 
 <div style="text-align: center;">
 
-# Modster
-## A GitHiub Pages template for Observable notebooks and modster's GitHub profile. Two birds, one stone.
+# modster
+## A GitHiub Pages template for Observable notebooks and @modster's GitHub profile. Two birds, one stone.
 
 </div>
 
@@ -28,9 +28,6 @@ To get started follow these steps:
 ## Customization
 You can customize the dashboard by editing the `observablehq.config.js` file. This file defines
 the structure of the sidebar, the theme, and other settings. You can add new notebooks to the `src` directory and link them in the sidebar configuration.
-
-## Examples
-Check out [Examples](https://modster.github.io/modster/examples) to see some sample notebooks built by @modster.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
