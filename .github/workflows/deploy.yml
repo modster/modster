@@ -27,7 +27,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Add CNAME
-        run: echo "greeffer.com" > dist/CNAME
+        run: echo "GREEFFER.COM" > dist/CNAME
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
