@@ -32,7 +32,7 @@
     "observable": "observable"
   },
   "dependencies": {
-    "@observablehq/framework": "^1.13.3",
+    "@observablehq/framework": "^1.13.4",
     "octokit": "^4.0.2"
   },
   "devDependencies": {
