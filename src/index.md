@@ -2,6 +2,7 @@
 title: Home
 keywords:
   - modster
+  - eric-m-greeff
   - photon-photos
   - camera
   - android
@@ -9,7 +10,7 @@ keywords:
   - camerax
   - cloudflare
   - obsidian
-description: Building cameras, organizing thoughts, and shipping software. Currently shipping Photon Photos to Google Play.
+description: Eric M. Greeff. Building cameras, organizing thoughts, and shipping software. Currently shipping Photon Photos to Google Play.
 toc: false
 sidebar: false
 ---
@@ -18,13 +19,15 @@ sidebar: false
 
 # @modster
 
+**Eric M. Greeff** — Android developer · Cloudflare/DNS · Obsidian tooling.
+
 Building cameras, organizing thoughts, and shipping software.
 
 </div>
 
 ## Now
 
-**Photon Photos** — An Android camera app built with CameraX, Jetpack Compose, and AGSL graphics shaders. Target: Google Play Store, September 2026.
+**Photon Photos** (pre-launch / internal testing) — An Android camera app built with CameraX and Jetpack Compose. Apache 2.0, repo public after Play Store launch. Target: Google Play Store, September 2026.
 
 [github.com/modster/photonphotos](https://github.com/modster/photonphotos) · [greeffer.com](https://greeffer.com)
 
