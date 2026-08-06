@@ -1,18 +1,65 @@
 ---
 title: Home
 keywords:
-  - observablehq
-  - framework
-  - gh-pages
-  - github
-  - profile
-  - static
-  - dashboard
-  - template
-description: A GitHub Pages template for hosting Observable notebooks and modster's GitHub profile. Two birds, one stone.
-toc: true
-sidebar: true
+  - modster
+  - photon-photos
+  - camera
+  - android
+  - jetpack-compose
+  - camerax
+  - cloudflare
+  - obsidian
+description: Building cameras, organizing thoughts, and shipping software. Currently shipping Photon Photos to Google Play.
+toc: false
+sidebar: false
 ---
 
+<div style="text-align: center;">
+
 # @modster
-## GitHub Profile  
+
+Building cameras, organizing thoughts, and shipping software.
+
+</div>
+
+## Now
+
+**Photon Photos** — An Android camera app built with CameraX, Jetpack Compose, and AGSL graphics shaders. Target: Google Play Store, September 2026.
+
+[github.com/modster/photonphotos](https://github.com/modster/photonphotos) · [greeffer.com](https://greeffer.com)
+
+## Background
+
+Manufacturing, then software. Truss designer at Highwood Trusses; 3D modelling across roofing truss plants. Now applying spatial reasoning and CAD-adjacent thinking to mobile imaging, rendering, and infrastructure.
+
+## Featured projects
+
+```js
+const repos = FileAttachment("data/repos.json").json();
+```
+
+```js
+display(Inputs.table(repos, {
+  columns: ["name", "description", "language", "stars", "pushedAt"],
+  header: {
+    name: "Project",
+    description: "Description",
+    language: "Lang",
+    stars: "★",
+    pushedAt: "Last push"
+  },
+  format: {
+    stars: (d) => d.toLocaleString(),
+    pushedAt: (d) => new Date(d).toISOString().slice(0, 10),
+    name: (d, i) => html`<a href=${repos[i].url} target="_blank">${d}</a>`
+  },
+  sort: "stars",
+  reverse: true
+}));
+```
+
+## Elsewhere
+
+- Telegram: [@greeffer](https://t.me/greeffer)
+- Email: emg@greeffer.com
+- Site: [greeffer.com](https://greeffer.com)
